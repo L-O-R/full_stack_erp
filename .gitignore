@@ -1,0 +1,5 @@
+.vscode
+vscode
+backend/myenv
+frontend/node_modules
+frontend/dist
