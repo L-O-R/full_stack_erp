@@ -23,14 +23,18 @@ def create_refresh_token(user):
 
 
 def decode_token(token):
-    try:
-        print(token)
-        return jwt.decode(token, os.getenv("SECRET_KEY"), algorithm="HS256")
-    except jwt.ExpiredSignatureError:
-        print("error expired")
-        print(token)
+    secret = os.getenv("SECRET_KEY")
+
+    if not secret:
+        print("decode_token error: SECRET_KEY is not set")
         return None
-    except jwt.InvalidTokenError:
-        print("error invalid")
-        print(token)
+
+    try:
+        print("decode_token token:", token)
+        return jwt.decode(token, secret, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        print("decode_token error: token expired")
+        return None
+    except jwt.InvalidTokenError as e:
+        print("decode_token error: invalid token", str(e))
         return None
