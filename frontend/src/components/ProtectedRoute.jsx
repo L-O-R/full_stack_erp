@@ -1,19 +1,12 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const ProtectedRoute = ({
-  children,
-  adminOnly = false,
-}) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("access_token");
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
 
-  if (!token || !user) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return <div>Loading....</div>;
 
-  if (adminOnly && !user.is_superuser) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!user) return <Navigate to="/login" />;
 
   return children;
 };

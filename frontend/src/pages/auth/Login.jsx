@@ -1,51 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
-
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/login",
-        {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        },
-      );
-
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data.user),
-        );
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(data.access_token),
-        );
-        localStorage.setItem(
-          "refresh_token",
-          JSON.stringify(data.refresh_token),
-        );
-
-        if (data.user.is_superuser) {
-          navigate("/dashboard");
-        } else {
-          setMessage("Access Denied: You are Not Admin");
-        }
-      } else {
-        setMessage(data.message);
-      }
+      await login({ username, password });
+      navigate("/dashboard");
     } catch (err) {
-      setMessage("Server Error!");
+      setMessage("Invalid credentials");
     }
   };
 
