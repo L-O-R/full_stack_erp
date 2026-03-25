@@ -32,7 +32,7 @@ def init_db():
     cursor.execute(
     """
         CREATE TABLE IF NOT EXISTS employees (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             role TEXT,
             salary REAL,
@@ -46,7 +46,7 @@ def init_db():
     cursor.execute(
     """
         CREATE TABLE IF NOT EXISTS assets (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             type TEXT,
             value REAL,

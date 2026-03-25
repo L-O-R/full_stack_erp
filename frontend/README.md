@@ -1,16 +1,61 @@
-# React + Vite
+# Mini ERP - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This is the frontend for the Mini ERP application, built with React and Vite. It serves as the admin panel interface where the admin can manage employees, assets, and view company overview statistics.
 
-Currently, two official plugins are available:
+## Folder Structure & Files
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `index.html`: The main HTML file serving the React app.
+- `vite.config.js`: Configuration file for the Vite bundler.
+- `package.json` / `package-lock.json`: NPM dependencies and project metadata.
+- `src/`: The main source code directory.
+  - `main.jsx`: The React entry point which renders the `App` component into the DOM.
+  - `App.jsx`: Main application component setting up React Router routes (`/login` and `/dashboard`).
+  - `App.css` / `index.css`: Global cascading style sheets.
+  - `api/`: Directory for API communication.
+    - `axios.js`: Configured Axios instance (typically for base URL and intercepting tokens).
+  - `components/`: Reusable UI components.
+    - `ProtectedRoute.jsx`: A wrapper component guarding routes that require admin access.
+  - `context/`: React Context providers for state management.
+    - `AuthContext.jsx`: Manages the global authentication state (current user, login status).
+  - `pages/`: Represents the different views/pages of the application.
+    - `auth/Login.jsx`: The login page UI and form handling logic.
+    - `dashboard/AdminDashboard.jsx`: The main dashboard page wrapper (currently minimal).
 
-## React Compiler
+## Current State & Missing Features
+The frontend currently supports a functional authentication flow (login screen, protected routes, and auth state management). 
+The following required features for the Admin Dashboard are **missing**:
+- **Main Dashboard View:** A visual overview of company stats (Total Employee Cost, Asset Cost, Depreciated Assets).
+- **Employee Management UI:** A dedicated section or page to view, add, edit, and delete employees.
+- **Asset Management UI:** A section to view, add, edit, and delete assets.
+- **Asset Assignment UI:** A form/modal to assign existing assets to specific employees.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Implementation Plan (Step-by-Step)
+To achieve the missing features, follow this simple plan to extend the UI:
 
-## Expanding the ESLint configuration
+1. **Dashboard Layout Structure:**
+   - Update `AdminDashboard.jsx` to include a Sidebar for navigation (Tabs: Overview, Employees, Assets, Assignments).
+   - Use a state variable to toggle which view is currently active.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. **Overview Component (`src/components/Overview.jsx`):**
+   - Create a component that fetches data from the backend analytics endpoint (`/api/dashboard/stats`).
+   - Display the data using simple metric cards (e.g., Total Employees, Total Asset Cost).
+
+3. **Employee Management Component (`src/components/Employees.jsx`):**
+   - Create a table to list all employees.
+   - Add a form (either inline or in a modal) to create standard employee records.
+   - Implement action buttons on each table row for `Edit` and `Delete` linking to the backend API.
+
+4. **Asset Management Component (`src/components/Assets.jsx`):**
+   - Create a table to list all company assets.
+   - Add a form to create/edit assets.
+   - Ensure the `value` and `type` fields are clearly visible for financial tracking.
+
+5. **Assignment Component (`src/components/Assignments.jsx`):**
+   - Build a UI featuring two dropdowns: one listing all employees and another listing available assets.
+   - Add an "Assign" button that posts to the backend and associates the employee with the asset.
+   - Display a list/table of active assignments below the form.
+
+6. **Integrate and Polish:**
+   - Link all these newly created components to the `AdminDashboard`.
+   - Ensure the UI remains clean and does not overcomplicate navigation. Use generic CSS or a simple library if added to keep styling straightforward.
