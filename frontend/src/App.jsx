@@ -3,6 +3,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import { AdminDashboard } from "./pages/dashboard/AdminDashboard";
 import Employees from "./components/Employees";
+import { Assets } from "./components/Assets";
+import { Assignments } from "./components/Assignments";
+import { Overview } from "./components/Overview";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -21,8 +24,10 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            {/* Default dashboard view can be added later, redirecting to employees for now if needed, or just leave it */}
+            <Route index element={<Overview />} />
             <Route path="employees" element={<Employees />} />
+            <Route path="assets" element={<Assets />} />
+            <Route path="assignments" element={<Assignments />} />
           </Route>
 
           <Route

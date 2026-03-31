@@ -37,10 +37,26 @@ def get_employees():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    employees = cursor.execute("SELECT * FROM employees").fetchall()
+    employees_rows = cursor.execute("SELECT * FROM employees").fetchall()
+    
+    # Also fetch all assignments
+    assignments_rows = cursor.execute('''
+        SELECT aa.employee_id, a.id, a.name 
+        FROM asset_assignments aa
+        JOIN assets a ON aa.asset_id = a.id
+        WHERE a.is_active = 1
+    ''').fetchall()
+    
     conn.close()
 
-    return jsonify([dict(e) for e in employees]), 200
+    employees = []
+    for emp in employees_rows:
+        emp_dict = dict(emp)
+        # Match assignments by stringified employee_id since DB field is TEXT
+        emp_dict["assets"] = [{"id": a["id"], "name": a["name"]} for a in assignments_rows if str(a["employee_id"]) == str(emp["id"])]
+        employees.append(emp_dict)
+
+    return jsonify(employees), 200
 
 
 

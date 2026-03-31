@@ -25,6 +25,15 @@ def create_app():
     from app.routes.employees import emp_bp
     app.register_blueprint(emp_bp, url_prefix = "/api")
 
+    from app.routes.assets import assets_bp
+    app.register_blueprint(assets_bp, url_prefix = "/api")
+
+    from app.routes.assignments import assignments_bp
+    app.register_blueprint(assignments_bp, url_prefix = "/api")
+
+    from app.routes.dashboard import dashboard_bp
+    app.register_blueprint(dashboard_bp, url_prefix = "/api")
+
     return app
 
 

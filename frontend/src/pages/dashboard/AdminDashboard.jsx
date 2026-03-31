@@ -32,6 +32,18 @@ export const AdminDashboard = () => {
           >
             Employees
           </Link>
+          <Link 
+            to="/dashboard/assets" 
+            className="block px-4 py-2 rounded-lg hover:bg-slate-700 transition"
+          >
+            Assets
+          </Link>
+          <Link 
+            to="/dashboard/assignments" 
+            className="block px-4 py-2 rounded-lg hover:bg-slate-700 transition"
+          >
+            Assignments
+          </Link>
           <button 
             onClick={handleLogout}
             className="w-full text-left px-4 py-2 mt-auto text-red-400 hover:bg-slate-700 rounded-lg transition"

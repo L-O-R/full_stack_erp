@@ -153,6 +153,7 @@ const Employees = () => {
                                     <th className="px-6 py-4 font-medium">Role</th>
                                     <th className="px-6 py-4 font-medium">Salary</th>
                                     <th className="px-6 py-4 font-medium">Bonus</th>
+                                    <th className="px-6 py-4 font-medium">Assets</th>
                                     <th className="px-6 py-4 font-medium text-right">Actions</th>
                                 </tr>
                             </thead>
@@ -176,6 +177,19 @@ const Employees = () => {
                                             </td>
                                             <td className="px-6 py-4 text-slate-300">${emp.salary?.toLocaleString() || 0}</td>
                                             <td className="px-6 py-4 text-slate-300">${emp.bonus?.toLocaleString() || 0}</td>
+                                            <td className="px-6 py-4">
+                                                {emp.assets && emp.assets.length > 0 ? (
+                                                    <div className="flex flex-wrap gap-1">
+                                                        {emp.assets.map(a => (
+                                                            <span key={a.id} className="inline-block bg-slate-700 border border-slate-600 text-slate-300 text-xs px-2 py-1 rounded">
+                                                                {a.name}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-slate-500 text-xs italic">None</span>
+                                                )}
+                                            </td>
                                             <td className="px-6 py-4 text-right space-x-3">
                                                 <button 
                                                     onClick={() => handleEdit(emp)}

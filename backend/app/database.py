@@ -50,7 +50,9 @@ def init_db():
             name TEXT,
             type TEXT,
             value REAL,
-            extra TEXT
+            condition TEXT,
+            expiry_date TEXT,
+            is_active INTEGER DEFAULT 1
         )
     """
     )
